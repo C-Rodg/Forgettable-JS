@@ -1,6 +1,6 @@
 # Forgettable JS
 
-A library that takes the complexity out of common Javascript features and let's you forget.
+A library that takes the complexity out of common Javascript features and let's you forget.  All done using Vanilla Javascript.
 
 ## Features
 
