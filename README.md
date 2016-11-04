@@ -4,12 +4,8 @@
 
 ## Features
 
-- Lightweight, No libraries required
-- Ajax
-- Effects
-- DOM manipulation 
-- Styles
-- Utilities
+- Feature 1
+- Feature 2
 
 
 ## Getting Started
