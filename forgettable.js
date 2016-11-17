@@ -19,22 +19,46 @@ function get(selector){
 // Method to select single node
 get.prototype.select = function(nodeNum) {
 	if(this.element.length > 0){
-		this.element = this.element[nodeNum];
+		this.element = [this.element[nodeNum]];
 	}
 	return this;
 };
+
+// Add a class to element(s)
+get.prototype.addClass = function(className) {
+	if(this.element.length > 0) {
+		this.element.forEach((el) => {
+			el.classList.add(className);
+		});
+	}
+	return this;
+};
+
+get.prototype.removeClass = function(className) {
+	if(this.element.length > 0) {
+		this.element.forEach((el) => {
+			el.classList.remove(className);
+		});
+	}
+	return this;
+}
 
 // GET URL
 get.prototype.get = function(url, callback){
 	let request = new XMLHttpRequest();
 	request.open('GET', url, true);
 	request.onload= function() {
-		if(this.status >= 200 && this.status < 400){
-			callback(this.response);
-		} else {
-			callback(this)
+		if(this.readyState === 4){
+			if(this.status >= 200 && this.status < 400){
+				callback(this.response);
+			} else {
+				callback(this)
+			}
 		}
 	};
+	request.onerror = function(e) {
+		callback(request.statusText);
+	}
 	request.send();
 	return request;
 };
@@ -45,14 +69,16 @@ get.prototype.getPromise = function(url) {
 		let request = new XMLHttpRequest();
 		request.open('GET', url, true);
 		request.onload = function() {
-			if(this.status >= 200 && this.status < 400){
-				resolve(this.response);
-			} else {
-				reject(this)
+			if(this.readyState === 4){
+				if(this.status >= 200 && this.status < 400){
+					resolve(this.response);
+				} else {
+					reject(this)
+				}
 			}
 		};
-		request.onerror = function(err) {
-			reject(this);
+		request.onerror = function(e) {
+			reject(request.statusText);
 		};
 		request.send();
 	});
@@ -65,14 +91,16 @@ get.prototype.post = function(url, callback){
 	request.open('POST', url, true);
 	request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
 	request.onload = function() {
-		if(this.status >= 200 && this.status < 400){
-			callback(this.response);
-		} else {
-			callback(this)
+		if(this.readyState === 4){
+			if(this.status >= 200 && this.status < 400){
+				callback(this.response);
+			} else {
+				callback(this)
+			}
 		}
 	};
-	request.onerror = function() {
-		callback(this);
+	request.onerror = function(e) {
+		callback(request.statusText);
 	}
 	request.send();
 	return request;
@@ -85,14 +113,16 @@ get.prototype.postPromise = function(url) {
 		request.open('POST', url, true);
 		request.setRequestHeader('Content-Type', 'application/x-www-form-url-encoded; charset=UTF-8');
 		request.onload = function() {
-			if(this.status >= 200 && this.status < 400){
-				resolve(this.response);
-			} else {
-				reject(this)
+			if(this.readyState === 4){
+				if(this.status >= 200 && this.status < 400){
+					resolve(this.response);
+				} else {
+					reject(this)
+				}
 			}
 		};
-		request.onerror = function() {
-			reject(this);
+		request.onerror = function(e) {
+			reject(request.statusText);
 		}
 		request.send();
 	});
