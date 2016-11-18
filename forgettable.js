@@ -34,6 +34,7 @@ get.prototype.addClass = function(className) {
 	return this;
 };
 
+// Remove a class to element(s)
 get.prototype.removeClass = function(className) {
 	if(this.element.length > 0) {
 		this.element.forEach((el) => {
@@ -41,7 +42,44 @@ get.prototype.removeClass = function(className) {
 		});
 	}
 	return this;
-}
+};
+
+// Check if class exists
+get.prototype.hasClass = function(checkClass){
+	if(this.element.length > 0){
+		return this.element[0].classList.contains(checkClass);
+	}
+};
+
+// Loop through selection
+get.prototype.each = function(func) {
+	Array.prototype.forEach.call(this.element, func);
+	return this;
+};
+
+// Empty selection
+get.prototype.empty = function() {
+	if(this.element.length > 0){
+		this.element.forEach((el) => {
+			el.innerHTML = "";
+		});
+	}
+	return this;
+};
+
+// Filter selection
+get.prototype.filter = function(func) {
+	this.element = Array.prototype.filter.call(this.element, func);
+	return this;
+};
+
+// Find children
+get.prototype.find = function(childSelector) {
+	if(this.element.length > 0){
+		this.element = this.element[0].querySelectorAll(childSelector);
+	}
+	return this;
+};
 
 // GET URL
 get.prototype.get = function(url, callback){
